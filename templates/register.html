@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Shopwave</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Shopwave</div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/">Products</a>
+      <a href="/orders">Orders</a>
+    </div>
+    <div class="nav-icons">
+      <button onclick="toggleTheme()" class="theme-toggle-btn">
+        <span id="theme-label">Light</span>
+      </button>
+      {% if current_user.is_authenticated %}
+        <span class="nav-username">{{ current_user.username }}</span>
+        <a href="/logout" style="text-decoration:none; color:inherit;">Logout</a>
+      {% else %}
+        <a href="/login" style="text-decoration:none; color:inherit;">Login</a>
+      {% endif %}
+      <a href="/cart" style="text-decoration:none; color:inherit;">🛒</a>
+    </div>
+  </nav>
+
+  <div class="auth-form">
+    <h1>Create an account</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <p class="flash-message">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <label>Username</label>
+      <input type="text" name="username" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <button type="submit" class="add-to-cart">Register</button>
+    </form>
+
+    <p class="auth-switch">Already have an account? <a href="/login">Log in</a></p>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

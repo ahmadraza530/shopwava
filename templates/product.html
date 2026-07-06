@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ product.name }} - Shopwave</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Shopwave</div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/">Products</a>
+      <a href="/orders">Orders</a>
+    </div>
+    <div class="nav-icons">
+      <button onclick="toggleTheme()" class="theme-toggle-btn">
+        <span id="theme-label">Light</span>
+      </button>
+      {% if current_user.is_authenticated %}
+        <span class="nav-username">{{ current_user.username }}</span>
+        <a href="/logout" style="text-decoration:none; color:inherit;">Logout</a>
+      {% else %}
+        <a href="/login" style="text-decoration:none; color:inherit;">Login</a>
+      {% endif %}
+      <a href="/cart" style="text-decoration:none; color:inherit;">🛒</a>
+    </div>
+  </nav>
+
+  <div class="product-details">
+    <div class="product-details-image">{{ product.emoji }}</div>
+    <div class="product-details-info">
+      <h1>{{ product.name }}</h1>
+      <p class="product-details-price">${{ "%.2f"|format(product.price) }}</p>
+      <form action="/add-to-cart/{{ product.id }}" method="POST">
+        <button type="submit" class="add-to-cart">Add to cart</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

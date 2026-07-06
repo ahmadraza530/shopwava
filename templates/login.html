@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Log in - Shopwave</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Shopwave</div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/">Products</a>
+      <a href="#">Orders</a>
+    </div>
+    <div class="nav-icons">
+      <span>👤</span>
+      <a href="/cart" style="text-decoration:none; color:inherit;">🛒</a>
+    </div>
+  </nav>
+
+  <div class="auth-form">
+    <h1>Log in</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <p class="flash-message">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <label>Username</label>
+      <input type="text" name="username" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <button type="submit" class="add-to-cart">Log in</button>
+    </form>
+
+    <p class="auth-switch">Don't have an account? <a href="/register">Register</a></p>
+  </div>
+
+</body>
+</html>av

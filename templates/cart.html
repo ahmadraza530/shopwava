@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your cart - Shopwave</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Shopwave</div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/">Products</a>
+      <a href="/orders">Orders</a>
+    </div>
+    <div class="nav-icons">
+      <button onclick="toggleTheme()" class="theme-toggle-btn">
+        <span id="theme-label">Light</span>
+      </button>
+      {% if current_user.is_authenticated %}
+        <span class="nav-username">{{ current_user.username }}</span>
+        <a href="/logout" style="text-decoration:none; color:inherit;">Logout</a>
+      {% else %}
+        <a href="/login" style="text-decoration:none; color:inherit;">Login</a>
+      {% endif %}
+      <a href="/cart" style="text-decoration:none; color:inherit;">🛒</a>
+    </div>
+  </nav>
+
+  <div class="cart-page">
+    {% if cart_items %}
+      {% for item in cart_items %}
+      <div class="cart-row">
+        <span class="cart-row-emoji">{{ item.product.emoji }}</span>
+        <span class="cart-row-name">{{ item.product.name }}</span>
+        <span class="cart-row-qty">Qty: {{ item.quantity }}</span>
+        <span class="cart-row-subtotal">${{ "%.2f"|format(item.subtotal) }}</span>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="cart-empty">Your cart is empty.</p>
+    {% endif %}
+  </div>
+
+  <div class="cart-summary">
+    <span class="cart-text">Cart total</span>
+    <div class="cart-right">
+      <span class="cart-amount">${{ "%.2f"|format(total) }}</span>
+      <form action="/checkout" method="POST">
+        <button type="submit" class="checkout-btn">Checkout</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

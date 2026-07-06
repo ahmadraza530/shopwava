@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your orders - Shopwave</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Shopwave</div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/">Products</a>
+      <a href="/orders">Orders</a>
+    </div>
+    <div class="nav-icons">
+      <button onclick="toggleTheme()" class="theme-toggle-btn">
+        <span id="theme-label">Light</span>
+      </button>
+      {% if current_user.is_authenticated %}
+        <span class="nav-username">{{ current_user.username }}</span>
+        <a href="/logout" style="text-decoration:none; color:inherit;">Logout</a>
+      {% else %}
+        <a href="/login" style="text-decoration:none; color:inherit;">Login</a>
+      {% endif %}
+      <a href="/cart" style="text-decoration:none; color:inherit;">🛒</a>
+    </div>
+  </nav>
+
+  <div class="cart-page">
+    {% if orders %}
+      {% for order in orders %}
+      <a href="/order-confirmation/{{ order.id }}" class="cart-row" style="text-decoration:none; color:inherit;">
+        <span class="cart-row-name">Order #{{ order.id }}</span>
+        <span class="cart-row-qty">{{ order.created_at.strftime('%b %d, %Y') }}</span>
+        <span class="cart-row-subtotal">${{ "%.2f"|format(order.total) }}</span>
+      </a>
+      {% endfor %}
+    {% else %}
+      <p class="cart-empty">You haven't placed any orders yet.</p>
+    {% endif %}
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
